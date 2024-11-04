@@ -29,9 +29,8 @@ public class Profile {
     public Profile() {
     }
 
-    public Profile(String email, String address, User user) {
+    public Profile(String email, User user) {
         this.email = email;
-        this.address = address;
         this.user = user;
     }
 

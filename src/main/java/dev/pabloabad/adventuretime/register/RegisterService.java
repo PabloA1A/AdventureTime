@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import dev.pabloabad.adventuretime.dtos.RegisterDto;
 import dev.pabloabad.adventuretime.facades.EncoderFacade;
 import dev.pabloabad.adventuretime.facades.implementations.IEncryptFacade;
 import dev.pabloabad.adventuretime.profiles.Profile;
@@ -47,14 +48,9 @@ public class RegisterService {
     }
 
     public Set<Role> assignDefaultRole() throws RoleNotFoundException {
-
         Set<Role> roles = new HashSet<>();
-
         Role defaultRole = roleService.getById(1L);
-
         roles.add(defaultRole);
-
         return roles;
-
     }
 }

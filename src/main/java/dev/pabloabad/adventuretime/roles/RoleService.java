@@ -1,6 +1,6 @@
 package dev.pabloabad.adventuretime.roles;
 
-import javax.management.relation.RoleNotFoundException;
+import dev.pabloabad.adventuretime.roles.exceptions.RoleNotFoundException;
 
 import org.springframework.stereotype.Service;
 
