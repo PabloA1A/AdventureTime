@@ -2,6 +2,7 @@ package dev.pabloabad.adventuretime.users;
 
 import java.util.Set;
 
+import dev.pabloabad.adventuretime.roles.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
