@@ -1,4 +1,4 @@
-package dev.pabloabad.adventuretime.encryptations.implementations;
+package dev.pabloabad.adventuretime.facades.implementations;
 
 public interface IEncryptFacade {
     
