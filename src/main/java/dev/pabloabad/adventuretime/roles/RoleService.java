@@ -13,7 +13,7 @@ public class RoleService {
         this.repository = repository;
     }
 
-    public Role getById(Long id) {
+    public Role getById(Long id) throws RoleNotFoundException {
         Role role = repository.findById(id).orElseThrow(() -> new RoleNotFoundException("Role not found"));
         return role;
     }
