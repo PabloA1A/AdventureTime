@@ -46,16 +46,15 @@ public class RegisterService {
         return savedUser;
     }
 
-    public Set<Role> assignDefaultRole() {
+    public Set<Role> assignDefaultRole() throws RoleNotFoundException {
+
         Set<Role> roles = new HashSet<>();
-        try {
-            Role defaultRole = roleService.getById(1L);
-            roles.add(defaultRole);
-        } catch (RoleNotFoundException e) {
-            // Handle the exception, e.g., log it or rethrow it
-            e.printStackTrace();
-        }
+
+        Role defaultRole = roleService.getById(1L);
+
+        roles.add(defaultRole);
 
         return roles;
+
     }
 }
