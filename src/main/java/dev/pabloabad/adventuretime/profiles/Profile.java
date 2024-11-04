@@ -1,5 +1,6 @@
-package dev.pabloabad.adventuretime.users;
+package dev.pabloabad.adventuretime.profiles;
 
+import dev.pabloabad.adventuretime.users.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
