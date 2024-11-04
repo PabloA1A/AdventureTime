@@ -33,8 +33,7 @@ public class RegisterService {
     }
 
     public User save(RegisterDto newRegisterDto) {
-        String passwordDecoded = encoderFacade.decode("base64", newRegisterDto.getPassword());
-        String passwordEncoded = encoderFacade.encode("bcrypt", passwordDecoded);
+        String passwordEncoded = encoderFacade.encode("bcrypt", newRegisterDto.getPassword());
 
         User user = new User(newRegisterDto.getUsername(), passwordEncoded);
         user.setRoles(assignDefaultRole());

@@ -22,44 +22,40 @@ import dev.pabloabad.adventuretime.users.JpaUserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    
-    @Value("${api-endpoint}")
+
+        @Value("${api-endpoint}")
         String endpoint;
 
-        MyBasicAuthenticationEntryPoint myBasicAuthenticationEntryPoint;
-        JpaUserDetailsService jpaUserDetailsService;
+        private final JpaUserDetailsService jpaUserDetailsService;
+        private final MyBasicAuthenticationEntryPoint myBasicAuthenticationEntryPoint;
 
-        public SecurityConfig(JpaUserDetailsService jpaUserDetailsService, MyBasicAuthenticationEntryPoint basicEntryPoint) {
+        public SecurityConfig(JpaUserDetailsService jpaUserDetailsService,
+                        MyBasicAuthenticationEntryPoint basicEntryPoint) {
                 this.jpaUserDetailsService = jpaUserDetailsService;
                 this.myBasicAuthenticationEntryPoint = basicEntryPoint;
         }
 
         @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-                http
-                        .cors(cors -> cors.configurationSource(corsConfiguration()))
-                        .csrf(csrf -> csrf.disable())
-                        .formLogin(form -> form.disable())
-                        .logout(out -> out
-                                .logoutUrl(endpoint + "/logout")
-                                .deleteCookies("ADVENTURER"))
-                        .authorizeHttpRequests(auth -> auth
-                                //.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-                                .requestMatchers(HttpMethod.GET, endpoint + "/event").hasRole("USER")
-                                .requestMatchers(HttpMethod.GET, endpoint + "/dashboard").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, endpoint + "/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, endpoint + "/register").permitAll()
-                                .requestMatchers(HttpMethod.GET, endpoint + "/home").permitAll()
-                                .anyRequest().authenticated())
-                        .userDetailsService(jpaUserDetailsService)
-                        .httpBasic(basic -> basic.authenticationEntryPoint(myBasicAuthenticationEntryPoint))
-                        .sessionManagement(session -> session
-                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
-
-                http.headers(header -> header.frameOptions(frame -> frame.sameOrigin()));
-
-                return http.build();
+        SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+            http
+                .cors(cors -> cors.configurationSource(corsConfiguration()))
+                .csrf(csrf -> csrf.disable())
+                .formLogin(form -> form.disable())
+                .logout(out -> out
+                    .logoutUrl(endpoint + "/logout")
+                    .deleteCookies("ADVENTURER"))
+                .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll() 
+                    .requestMatchers(HttpMethod.GET, "/api/v1/login").hasAnyRole("USER", "ADMIN")
+                    .anyRequest().authenticated())
+                .userDetailsService(jpaUserDetailsService)
+                .httpBasic(basic -> basic.authenticationEntryPoint(myBasicAuthenticationEntryPoint))
+                .sessionManagement(session -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+        
+            http.headers(header -> header.frameOptions(frame -> frame.sameOrigin()));
+        
+            return http.build();
         }
 
         @Bean
@@ -68,12 +64,11 @@ public class SecurityConfig {
                 configuration.setAllowCredentials(true);
                 configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-                configuration.setAllowedHeaders(Arrays.asList("Authorization"));
+                configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", configuration);
                 return source;
         }
-
 
         @Bean
         PasswordEncoder passwordEncoder() {

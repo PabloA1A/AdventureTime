@@ -1,10 +1,12 @@
 package dev.pabloabad.adventuretime.facades;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import dev.pabloabad.adventuretime.encryptations.Base64Encoder;
 import dev.pabloabad.adventuretime.facades.implementations.IEncryptFacade;
 
+@Component 
 public class EncoderFacade implements IEncryptFacade {
     
     PasswordEncoder bCryptPasswordEncoder;

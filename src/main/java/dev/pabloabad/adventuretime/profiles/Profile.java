@@ -24,14 +24,14 @@ public class Profile {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_profile")
+    @Column(name = "profile_id")
     private Long id;
 
+    @Column(nullable = false)
     private String email;
-    private String address;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id_user")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private User user;
 
     public Profile(String email, User user) {
