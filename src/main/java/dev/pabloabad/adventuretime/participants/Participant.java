@@ -1,4 +1,4 @@
-/* package dev.pabloabad.adventuretime.participants;
+package dev.pabloabad.adventuretime.participants;
 
 import java.time.LocalDateTime;
 
@@ -36,4 +36,3 @@ public class Participant {
     @JoinColumn(name = "user_id")
     private User user;
 }
- */
