@@ -1,10 +1,6 @@
 package dev.pabloabad.adventuretime.participants;
 
 import java.util.List;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import dev.pabloabad.adventuretime.dtos.ParticipantDto;
 import dev.pabloabad.adventuretime.participants.exceptions.ParticipantNotFoundException;
-import dev.pabloabad.adventuretime.profiles.ProfileService;
 
 @RestController
 @RequestMapping(path = "${api-endpoint}/participant")
@@ -20,14 +15,6 @@ public class ParticipantController {
 
     @Autowired
     private ParticipantService participantService;
-
-    @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private ProfileService profileService;
-
-    private static final Logger logger = LoggerFactory.getLogger(ParticipantController.class);
 
     @GetMapping("/all")
     public ResponseEntity<List<ParticipantDto>> getAllParticipants() {

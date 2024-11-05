@@ -5,7 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import dev.pabloabad.adventuretime.dtos.EventDto;
+import dev.pabloabad.adventuretime.events.exceptions.EventException;
 import dev.pabloabad.adventuretime.events.exceptions.EventNotFoundException;
+import dev.pabloabad.adventuretime.users.User;
 
 import java.util.List;
 import java.util.Optional;
