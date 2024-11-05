@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import dev.pabloabad.adventuretime.dtos.ParticipantDto;
+import dev.pabloabad.adventuretime.participants.exceptions.ParticipantNotFoundException;
 import dev.pabloabad.adventuretime.profiles.ProfileService;
 
 @RestController
