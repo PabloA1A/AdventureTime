@@ -1,17 +1,24 @@
 package dev.pabloabad.adventuretime.participants;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import dev.pabloabad.adventuretime.dtos.EventDto;
 import dev.pabloabad.adventuretime.dtos.ParticipantDto;
+import dev.pabloabad.adventuretime.events.EventService;
 import dev.pabloabad.adventuretime.participants.exceptions.ParticipantNotFoundException;
 
 @RestController
 @RequestMapping(path = "${api-endpoint}/participant")
 public class ParticipantController {
+
+    @Autowired
+    private EventService eventService;
 
     @Autowired
     private ParticipantService participantService;
@@ -59,6 +66,32 @@ public class ParticipantController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An error occurred while unregistering from the event: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/{eventId}/join/{userId}")
+    public ResponseEntity<String> joinEvent(@PathVariable Long eventId, @PathVariable Long userId) {
+        try {
+            Optional<EventDto> eventOptional = eventService.getEventById(eventId);
+            if (!eventOptional.isPresent()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            EventDto event = eventOptional.get();
+            if (event.getParticipantsCount() >= event.getMaxParticipants()) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Event is full");
+            }
+
+            boolean joined = participantService.joinEvent(eventId, userId);
+            if (!joined) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                        .body("User is already registered for the event");
+            }
+
+            return ResponseEntity.ok("Successfully joined the event");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while joining the event: " + e.getMessage());
         }
     }
 }
