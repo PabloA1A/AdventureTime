@@ -62,28 +62,28 @@ public class ParticipantService {
     public boolean joinEvent(Long eventId, Long userId) {
         Optional<Event> eventOptional = eventRepository.findById(eventId);
         Optional<User> userOptional = userRepository.findById(userId);
-
-        if (eventOptional.isPresent()) {
+    
+        if (eventOptional.isPresent() && userOptional.isPresent()) {
             Event event = eventOptional.get();
-
+    
             if (event.getParticipantsCount() >= event.getMaxParticipants()) {
                 return false;
             }
-
+    
             boolean isAlreadyRegistered = participantRepository.findByEventIdAndUserId(eventId, userId).isPresent();
             if (isAlreadyRegistered) {
                 return false;
             }
-
+    
             Participant participant = new Participant();
-            participant.setEvent(eventOptional.get());
+            participant.setEvent(event);
             participant.setUser(userOptional.get());
             participant.setJoinedAt(LocalDateTime.now());
-
+    
             participantRepository.save(participant);
             return true;
         }
-
+    
         return false;
     }
 
