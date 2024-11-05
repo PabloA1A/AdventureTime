@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import dev.pabloabad.adventuretime.dtos.ParticipantDto;
+import dev.pabloabad.adventuretime.events.Event;
 import dev.pabloabad.adventuretime.participants.exceptions.ParticipantNotFoundException;
 import dev.pabloabad.adventuretime.users.SecurityUser;
 import dev.pabloabad.adventuretime.users.User;
